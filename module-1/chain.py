@@ -4,6 +4,7 @@ from pprint import pprint
 from dotenv import load_dotenv
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import AIMessage, HumanMessage
+from IPython.display import Image, display
 
 def multiply(x:int, y:int) -> int:
     """
