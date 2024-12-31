@@ -3,7 +3,8 @@
   "graphs": {
     "state-schema": "./state-schema.py:graph",
     "state-reducer": "./state-reducer.py:graph",
-    "trim-filter-messages": "./trim-filter-messages.py:graph"
+    "trim-filter-messages": "./trim-filter-messages.py:graph",
+    "chatbot": "./chatbot.py:graph"
   },
   "env": "./.env",
   "python_version": "3.11",
