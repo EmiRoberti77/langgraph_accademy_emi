@@ -1,24 +1,31 @@
 from typing_extensions import TypedDict
 from langgraph.graph import StateGraph, START, END
 
+class InputState(TypedDict):
+    question:str
+
+class OutputState(TypedDict):
+    question:str
+
 class OverallState(TypedDict):
-    foo:int
+    question:str
+    answer:str
+    notes:str
 
-class PrivateState(TypedDict):
-    baz:int
+def thinking_node(state:InputState):
+    return {"answer":"bye","notes":"his name is Emi"}
 
-def node_1(state:OverallState)->PrivateState:
-    return {"baz": state["foo"] + 1}
+def answer_node(state:OverallState):
+    return {"answer":state["notes"] +" "+ state["answer"]}
 
-def node_2(state:PrivateState)->OverallState:
-    return {"foo": state["baz"] + 1 }
 
 builder = StateGraph(OverallState)
-builder.add_node("node_1", node_1)
-builder.add_node("node_2", node_2)
-builder.add_edge(START, "node_1")
-builder.add_edge("node_1", "node_2")
-builder.add_edge("node_2", END)
+builder.add_node("thinking_node", thinking_node)
+builder.add_node("answer_node", answer_node)
+builder.add_edge(START, "thinking_node")
+builder.add_edge("thinking_node", "answer_node")
+builder.add_edge("answer_node", END)
 graph = builder.compile()
-messages = graph.invoke({"foo":1})
+startState:OverallState = {"input":"what is your name","answer":"", "notes":""}
+messages = graph.invoke(startState)
 print(messages)
